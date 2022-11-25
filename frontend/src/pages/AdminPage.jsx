@@ -1,7 +1,9 @@
 import { useState } from 'react';
-import { Box, Fab } from '@mui/material';
+import { Fab } from '@mui/material';
 import AddCircleOutline from '@mui/icons-material/AddCircleOutline';
 import AddProductModal from '../modals/AddProductModal';
+import ProductListAdmin from '../components/ProductListAdmin';
+import Container from '@mui/material/Container';
 
 const AdminPage = ({ allProducts, setAllProducts }) => {
   const [isAddProductModalVisible, setIsAddProductVisible] = useState(false);
@@ -14,12 +16,13 @@ const AdminPage = ({ allProducts, setAllProducts }) => {
     });
     setAllProducts(tempProducts);
   };
+
   // this creates a different array that has all products, not updating the value of the state in an incorrect way
   // setAllProducts(allProducts.push(product)) // not like this! It will mutate the state value directly.
   // setAllProducts(prev => prev.push(product)); // grab prev value from inside the function and just return the previous with the new product.
 
   return (
-    <Box>
+    <Container maxWidth='lg' sx={{ margin: 2 }}>
       <Fab
         variant='extended'
         onClick={() => setIsAddProductVisible(true)}
@@ -32,12 +35,13 @@ const AdminPage = ({ allProducts, setAllProducts }) => {
         <AddCircleOutline sx={{ mr: 1 }} />
         Add a new product
       </Fab>
+      <ProductListAdmin products={allProducts} />
       <AddProductModal
         open={isAddProductModalVisible}
         onClose={() => setIsAddProductVisible(false)}
         onSubmit={handleOnSubmit}
       />
-    </Box>
+    </Container>
   );
 };
 
