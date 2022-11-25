@@ -4,22 +4,34 @@ import AddCircleOutline from '@mui/icons-material/AddCircleOutline';
 import AddProductModal from '../modals/AddProductModal';
 import ProductListAdmin from '../components/ProductListAdmin';
 import Container from '@mui/material/Container';
+import EditProductModal from '../modals/EditProductModal';
 
 const AdminPage = ({ allProducts, setAllProducts }) => {
   const [isAddProductModalVisible, setIsAddProductVisible] = useState(false);
+  const [isEditProductModalVisible, setIsEditProductModalVisible] =
+    useState(false);
+  const [editProduct, setEditProduct] = useState();
 
   const handleOnSubmit = (product) => {
     const tempProducts = Array.from(allProducts);
-    tempProducts.push({
-      ...product,
-      _id: tempProducts.length + 1, // Add an id when storing
-    });
+    if (product._id) {
+      const productIndex = tempProducts.findIndex((p) => p._id === product._id);
+      tempProducts[productIndex] = product;
+    } else
+      tempProducts.push({
+        ...product,
+        _id: tempProducts.length + 1, // Add an id when storing
+      });
     setAllProducts(tempProducts);
   };
 
-  // this creates a different array that has all products, not updating the value of the state in an incorrect way
-  // setAllProducts(allProducts.push(product)) // not like this! It will mutate the state value directly.
-  // setAllProducts(prev => prev.push(product)); // grab prev value from inside the function and just return the previous with the new product.
+  const handleOnEdit = (product) => {
+    setIsEditProductModalVisible(true);
+    setEditProduct(product);
+  };
+
+  const handleOnDelete = (id) =>
+    setAllProducts((prev) => prev.filter((p) => p._id !== id));
 
   return (
     <Container maxWidth='lg' sx={{ margin: 2 }}>
@@ -35,11 +47,21 @@ const AdminPage = ({ allProducts, setAllProducts }) => {
         <AddCircleOutline sx={{ mr: 1 }} />
         Add a new product
       </Fab>
-      <ProductListAdmin products={allProducts} />
+      <ProductListAdmin
+        products={allProducts}
+        handleOnEdit={handleOnEdit}
+        handleOnDelete={handleOnDelete}
+      />
       <AddProductModal
         open={isAddProductModalVisible}
         onClose={() => setIsAddProductVisible(false)}
         onSubmit={handleOnSubmit}
+      />
+      <EditProductModal
+        open={isEditProductModalVisible}
+        onClose={() => setIsEditProductModalVisible(false)}
+        onSubmit={handleOnSubmit}
+        product={editProduct}
       />
     </Container>
   );
