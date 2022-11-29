@@ -4,6 +4,7 @@ import AdminPage from './pages/AdminPage';
 import Shop from './pages/Shop';
 import { Route, Routes } from 'react-router-dom';
 import CartPage from './pages/CartPage';
+import CheckoutPage from './pages/CheckoutPage';
 
 function App() {
   const [allProducts, setAllProducts] = useState([]);
@@ -49,6 +50,15 @@ function App() {
           path='/cart'
           element={
             <CartPage
+              cartProducts={cartProducts}
+              setCartProducts={setCartProducts}
+            />
+          }
+        />
+        <Route
+          path='/cart/checkout'
+          element={
+            <CheckoutPage
               cartProducts={cartProducts}
               setCartProducts={setCartProducts}
             />

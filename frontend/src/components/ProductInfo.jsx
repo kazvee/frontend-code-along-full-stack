@@ -10,7 +10,7 @@ const ProductInfo = ({ product }) => {
         component='img'
         sx={{ height: 0.4, width: 1, objectFit: 'cover' }}
         src={product.imageUrl}
-        alt='a buffalo'
+        alt='Product Image!'
       />
       <Stack
         sx={{ height: 0.6, px: 4, width: 0.75 }}

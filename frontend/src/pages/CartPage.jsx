@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import { Button, Container, Paper, Typography } from '@mui/material';
 import ProductListCart from '../components/ProductListCart';
 
@@ -6,6 +7,8 @@ const CartPage = ({ cartProducts, setCartProducts }) => {
     .map((cp) => cp.qty * cp.price)
     .reduce((prev, curr) => prev + curr, 0)
     .toFixed(2);
+
+  const navigate = useNavigate();
 
   const handleLess = (id) => {
     const tempCartProducts = Array.from(cartProducts);
@@ -56,7 +59,13 @@ const CartPage = ({ cartProducts, setCartProducts }) => {
           Subtotal <strong>$ {total}</strong>
         </Typography>
 
-        <Button variant='contained' children='Proceed to checkout' />
+        <Button
+          variant='contained'
+          children='Proceed to checkout'
+          onClick={() => {
+            navigate('checkout');
+          }}
+        />
       </Paper>
     </Container>
   );
