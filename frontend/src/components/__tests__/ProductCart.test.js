@@ -12,6 +12,10 @@ const handleMore = jest.fn();
 describe('When using ProductCart component', () => {
   let product;
 
+  // Queried using beforeEach for
+  // render(<ProductCart product={product} />);
+  // but advice was that each test should stand alone (even though code is repeated)
+
   beforeEach(() => {
     product = {
       _id: chance.guid(), // could also use string

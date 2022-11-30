@@ -23,3 +23,27 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+Cypress.Commands.add('createNewProduct', (product) => {
+  cy.contains('button', 'Add a new product').click();
+  cy.contains('Add a new product...');
+
+  cy.get('input[name=name]').type(product.name);
+  cy.get('input[name=description]').type(product.description);
+  cy.get('input[name=price]').clear().type(product.price);
+  cy.get('input[name=imageUrl]').type(product.imageUrl, { delay: 0 });
+
+  cy.contains('button', 'Add product').click();
+
+  cy.contains(product.name);
+  cy.contains(product.description);
+  cy.contains(`$${product.price}`);
+  cy.get('img').should('have.attr', 'src', product.imageUrl);
+});
+
+Cypress.Commands.add('visitAdminPage', () => {
+  cy.visit('/');
+
+  cy.contains('Admin').click();
+  cy.url().should('contain', '/admin');
+});
